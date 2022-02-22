@@ -7,6 +7,7 @@
 #include "img/image.hpp"
 #include "img/media_path.hpp"
 
+#include <algorithm>
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
@@ -53,10 +54,17 @@ void TowerSimulation::create_keystrokes() const
 {
     GL::keystrokes.emplace('x', []() { GL::exit_loop(); });
     GL::keystrokes.emplace('q', []() { GL::exit_loop(); });
+
     GL::keystrokes.emplace('c', [this]() { create_random_aircraft(); });
+
     GL::keystrokes.emplace('+', []() { GL::change_zoom(0.95f); });
     GL::keystrokes.emplace('-', []() { GL::change_zoom(1.05f); });
+
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
+
+    GL::keystrokes.emplace('8', []() { GL::ticks_per_sec++; });
+    GL::keystrokes.emplace('5', []() { GL::ticks_per_sec = std::max(1u, GL::ticks_per_sec - 1); });
+    // GL::keystrokes.emplace('p', []() { }); // METTRE EN PAUSE LE PROGRAMME
 }
 
 void TowerSimulation::display_help() const

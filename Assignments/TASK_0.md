@@ -6,38 +6,91 @@ Compilez et lancez le programme.
 
 Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de gérer les inputs du programme.
 Sur quelle touche faut-il appuyer pour ajouter un avion ?
-Comment faire pour quitter le programme ?
+> Avec la touche ``c`` 
+
+Comment faire pour quitter le programme ? 
+> À l'aide des touches ``q`` ou ``x``
+
 A quoi sert la touche 'F' ?
+> À mettre en plein écran
 
 Ajoutez un avion à la simulation et attendez.
 Que est le comportement de l'avion ?
+> L'avion de pose, va se garer pour faire l'entretien, repart puis recommence.
+
 Quelles informations s'affichent dans la console ?
+> KL6289 is now landing... \
+  now servicing KL6289... \
+  done servicing KL6289 \
+  KL6289 lift off
 
 Ajoutez maintenant quatre avions d'un coup dans la simulation.
 Que fait chacun des avions ?
+> Trois avions atterrissent et vont se garer pour l'entretien, chacun dans une place différente. Puis quand une place se libère et qu'un avion redécolle le quatrième avion atterrit pour faire la même chose
+
 
 ## B- Analyse du code
 
 Listez les classes du programme à la racine du dossier src/.
 Pour chacune d'entre elle, expliquez ce qu'elle représente et son rôle dans le programme.
 
+> - **class Aircraft :** classe qui représente un avion.
+> - **class AirportType :**
+> - **class Airport :** classe gérant un aréoport.
+> - **class Terminal :** classe gérant un terminal.
+> - **class TowerSimulation :** classe principale de notre projet.
+> - **class Tower :** classe aiguillant les avions.
+> - **class WaypointType :** classe représentant un point de contrôle
+
+\
 Pour les classes `Tower`, `Aircaft`, `Airport` et `Terminal`, listez leurs fonctions-membre publiques et expliquez précisément à quoi elles servent.
 Réalisez ensuite un schéma présentant comment ces différentes classes intéragissent ensemble.
+> - **class Tower :** \
+    - get_instructions = fonctions qui donnent les instructions à un avion, en fonction de s'il est dans les airs ou dans un terminal \
+    - arrived_at_terminal = fonction appelé lorsqu'un avion atterrit pour lui fournir un terminal.
 
-Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ?
+> - **class Aircraft :** \
+    - get_flight_num = renvoie le numéro du vol. \
+    - distance_to = fonction qui renvoie la position de l'avion par rapport à un point.
+    - display = dessine l'avion sur la fenêtre. \
+    - move = déplace l'avion.
+
+> - **class Airport :** \
+    - get_tower = renvoie l'objet de type Tower associé à l'aéroport. \
+    - display = affiche l'aéroport sur la fenêtre. \
+    - move = permet de faire avancer la progression de tous les terminaux associés à l'aéroport.
+
+> - **class Terminal :** \
+    - in_use = fonction qui permet de savoir si un terminal est en cours d'utilisation ou non. \
+    - is_servicing = permet de savoir si un avion est entrain d'être entretenir ou non. \
+    - assign_craft = assigne un avion au terminal. \
+    - start_service = commence l'entretien pour l'avion associé. \
+    - finish_service = termine l'entretien pour l'avion associé. \
+    - move = fait avancer la progression de l'entretien. 
+
+\
+Quelles classes et fonctions sont impliquées dans la génération du chemin d'un avion ? 
+> Les classes Tower avec la fonction get_instructions, Airport avec la fonction start_path et AirportType avec la fonction terminal_to_air.
+
 Quel conteneur de la librairie standard a été choisi pour représenter le chemin ?
 Expliquez les intérêts de ce choix.
+> Le conteneur choisi est une ``std::deque``. L'intérêt de ce choix est qu'on a les mêmes avantages qu'une std::queue mais qu'on peut ajouter et retirer des deux côtés.
 
-## C- Bidouillons !
+## C- Bidouillons ! 
 
 1) Déterminez à quel endroit du code sont définies les vitesses maximales et accélération de chaque avion.
 Le Concorde est censé pouvoir voler plus vite que les autres avions.
 Modifiez le programme pour tenir compte de cela.
 
+    > Ces informations sont définis au niveau de la fonction-membre ``init_aircraft_types`` de la stucture AircraftType.
+
+
 2) Identifiez quelle variable contrôle le framerate de la simulation.
-Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur.
-Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?\
-Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
+Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur. \
+Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
+    > Le changement du framerate se fait au moyen de la variable ``GL::ticks_per_sec`` et pour gérer les input on fait appel à ``GL::keystrokes.emplace``. 
+    >
+    > Si on essaye de mettre le programme en pause en manipulant le framerate pour le mettre à 0, le programme s'arrête subitement.
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
 
