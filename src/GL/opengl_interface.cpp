@@ -73,12 +73,27 @@ void display(void)
 
 void timer(const int step)
 {
-    for (auto& item : move_queue)
+    if (ticks_per_sec != 0)
     {
-        item->move();
+        for (auto it = move_queue.begin(); it != move_queue.end(); it++)
+        {
+            if ((*it)->can_be_del())
+            {
+                it = move_queue.erase(it);
+            }
+            else
+            {
+                (*it)->move();
+            }
+        }
+        glutPostRedisplay();
+        glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
     }
-    glutPostRedisplay();
-    glutTimerFunc(1000u / ticks_per_sec, timer, step + 1);
+    else
+    {
+        glutPostRedisplay();
+        glutTimerFunc(1000u / DEFAULT_TICKS_PER_SEC, timer, step + 1);
+    }
 }
 
 void init_gl(int argc, char** argv, const char* title)

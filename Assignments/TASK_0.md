@@ -88,11 +88,12 @@ Modifiez le programme pour tenir compte de cela.
 2) Identifiez quelle variable contrôle le framerate de la simulation.
 Ajoutez deux nouveaux inputs au programme permettant d'augmenter ou de diminuer cette valeur. \
 Essayez maintenant de mettre en pause le programme en manipulant ce framerate. Que se passe-t-il ?Ajoutez une nouvelle fonctionnalité au programme pour mettre le programme en pause, et qui ne passe pas par le framerate.
-    > Le changement du framerate se fait au moyen de la variable ``GL::ticks_per_sec`` et pour gérer les input on fait appel à ``GL::keystrokes.emplace``. 
+    > Le changement du framerate se fait au moyen de la variable ``GL::ticks_per_sec`` defini dans ``GL/open_interface.hpp`` et pour gérer les input on fait appel à ``GL::keystrokes.emplace``. 
     >
     > Si on essaye de mettre le programme en pause en manipulant le framerate pour le mettre à 0, le programme s'arrête subitement.
 
 3) Identifiez quelle variable contrôle le temps de débarquement des avions et doublez-le.
+    > La variable ``SERVICE_CYCLES`` qui se trouve dans ``config.hpp`` permet de contrôler le temps de débarquement des avions.
 
 4) Lorsqu'un avion a décollé, il réattérit peu de temps après.
 Faites en sorte qu'à la place, il soit retiré du programme.\
@@ -101,6 +102,7 @@ A quel endroit pouvez-vous savoir que l'avion doit être supprimé ?\
 Pourquoi n'est-il pas sûr de procéder au retrait de l'avion dans cette fonction ?
 A quel endroit de la callstack pourriez-vous le faire à la place ?\
 Que devez-vous modifier pour transmettre l'information de la première à la seconde fonction ?
+    > Seul l'avion lui même permet de savoir s'il est arrivé à un waypoint final mais il ne peut être supprimé qu'à partir de la fonction ``timer`` de``GL/opengl_interface.cpp``.
 
 5) Lorsqu'un objet de type `Displayable` est créé, il faut ajouter celui-ci manuellement dans la liste des objets à afficher.
 Il faut également penser à le supprimer de cette liste avant de le détruire.

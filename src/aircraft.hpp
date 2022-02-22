@@ -21,6 +21,8 @@ private:
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
 
+    bool _must_be_del = false;
+
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
     // right way to this end, we try to face the point Z on the line spanned by
@@ -62,6 +64,8 @@ public:
 
     void display() const override;
     void move() override;
+
+    bool can_be_del() const override { return _must_be_del; }
 
     friend class Tower;
 };

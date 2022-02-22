@@ -64,7 +64,8 @@ void TowerSimulation::create_keystrokes() const
 
     GL::keystrokes.emplace('8', []() { GL::ticks_per_sec++; });
     GL::keystrokes.emplace('5', []() { GL::ticks_per_sec = std::max(1u, GL::ticks_per_sec - 1); });
-    // GL::keystrokes.emplace('p', []() { }); // METTRE EN PAUSE LE PROGRAMME
+    GL::keystrokes.emplace('p', []()
+                           { GL::ticks_per_sec = (GL::ticks_per_sec == 0) ? DEFAULT_TICKS_PER_SEC : 0; });
 }
 
 void TowerSimulation::display_help() const

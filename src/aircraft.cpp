@@ -111,6 +111,10 @@ void Aircraft::move()
             else
             {
                 operate_landing_gear();
+                if (waypoints.size() == 1)
+                {
+                    _must_be_del = true;
+                }
             }
             waypoints.pop_front();
         }
