@@ -125,6 +125,8 @@ struct Point3D
 
     Point3D operator-() const { return Point3D { -x(), -y(), -z() }; }
 
+    bool operator!=(Point3D other) const { return x() != other.x() && y() != other.y() && z() != other.z(); }
+
     float length() const { return std::sqrt(x() * x() + y() * y() + z() * z()); }
 
     float distance_to(const Point3D& other) const { return (*this - other).length(); }

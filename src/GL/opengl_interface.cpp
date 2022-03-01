@@ -79,7 +79,9 @@ void timer(const int step)
         {
             if ((*it)->can_be_del())
             {
-                it = move_queue.erase(it);
+                auto plane = (*it);
+                it         = move_queue.erase(it);
+                delete(plane);
             }
             else
             {

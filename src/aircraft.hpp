@@ -21,7 +21,8 @@ private:
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
 
-    bool _must_be_del = false;
+    bool _must_be_del      = false;
+    bool have_been_service = false;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the

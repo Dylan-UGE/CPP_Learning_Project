@@ -41,7 +41,6 @@ void TowerSimulation::create_aircraft(const AircraftType& type) const
     const Point3D direction = (-start).normalize();
 
     Aircraft* aircraft = new Aircraft { type, flight_number, start, direction, airport->get_tower() };
-    GL::display_queue.emplace_back(aircraft);
     GL::move_queue.emplace(aircraft);
 }
 

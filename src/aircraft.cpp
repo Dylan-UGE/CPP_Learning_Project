@@ -92,6 +92,12 @@ void Aircraft::move()
 {
     if (waypoints.empty())
     {
+        if (have_been_service)
+        {
+            _must_be_del = true;
+            return;
+        }
+
         waypoints = control.get_instructions(*this);
     }
 
@@ -111,10 +117,6 @@ void Aircraft::move()
             else
             {
                 operate_landing_gear();
-                if (waypoints.size() == 1)
-                {
-                    _must_be_del = true;
-                }
             }
             waypoints.pop_front();
         }
