@@ -30,9 +30,13 @@ Il serait donc bon de savoir qui est censé détruire les avions du programme, a
 
 Répondez aux questions suivantes :
 1. Qui est responsable de détruire les avions du programme ? (si vous ne trouvez pas, faites/continuez la question 4 dans TASK_0)
+    > La fonction timer contenu dans GL/opengl_interface s'ocuppe de supprimer les avions.
 2. Quelles autres structures contiennent une référence sur un avion au moment où il doit être détruit ?
+    > **``TODO``**
 3. Comment fait-on pour supprimer la référence sur un avion qui va être détruit dans ces structures ?
+    > On enlève d'abord l'avion de la move_queue puis on fait appel au destructeur qui détruit l'avion et l'enlève de la display_queue.
 4. Pourquoi n'est-il pas très judicieux d'essayer d'appliquer la même chose pour votre `AircraftManager` ?
+    > **``TODO``**
 
 Pour simplifier le problème, vous allez déplacer l'ownership des avions dans la classe `AircraftManager`.
 Vous allez également faire en sorte que ce soit cette classe qui s'occupe de déplacer les avions, et non plus la fonction `timer`.
