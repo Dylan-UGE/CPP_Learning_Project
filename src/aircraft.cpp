@@ -88,14 +88,13 @@ void Aircraft::add_waypoint(const Waypoint& wp, const bool front)
     }
 }
 
-void Aircraft::move()
+bool Aircraft::move()
 {
     if (waypoints.empty())
     {
         if (have_been_service)
         {
-            _must_be_del = true;
-            return;
+            return false;
         }
 
         waypoints = control.get_instructions(*this);
@@ -142,6 +141,8 @@ void Aircraft::move()
         // update the z-value of the displayable structure
         GL::Displayable::z = pos.x() + pos.y();
     }
+
+    return true;
 }
 
 void Aircraft::display() const

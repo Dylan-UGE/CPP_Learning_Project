@@ -10,7 +10,7 @@
 #include <string>
 #include <string_view>
 
-class Aircraft : public GL::Displayable, public GL::DynamicObject
+class Aircraft : public GL::Displayable
 {
 private:
     const AircraftType& type;
@@ -21,7 +21,6 @@ private:
     bool landing_gear_deployed = false; // is the landing gear deployed?
     bool is_at_terminal        = false;
 
-    bool _must_be_del      = false;
     bool have_been_service = false;
 
     // turn the aircraft to arrive at the next waypoint
@@ -64,9 +63,7 @@ public:
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
 
     void display() const override;
-    void move() override;
-
-    bool can_be_del() const override { return _must_be_del; }
+    bool move();
 
     friend class Tower;
 };

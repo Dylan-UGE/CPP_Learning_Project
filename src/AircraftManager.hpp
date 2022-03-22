@@ -2,31 +2,23 @@
 
 #include "aircraft.hpp"
 
+#include <algorithm>
 #include <memory>
 #include <string>
-#include <unordered_map>
+#include <vector>
 
 class AircraftManager : public GL::DynamicObject
 {
 private:
-    std::unordered_set<std::unique_ptr<Aircraft>> aircrafts;
+    std::vector<std::unique_ptr<Aircraft>> aircrafts;
 
 public:
     void move() override
     {
-        for (auto it = aircrafts.begin(); it != aircrafts.end();)
-        {
-            if ((*it)->can_be_del())
-            {
-                it = aircrafts.erase(it);
-            }
-            else
-            {
-                (*it)->move();
-                it++;
-            }
-        }
+        aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
+                                       [](std::unique_ptr<Aircraft>& ref) { return !ref->move(); }),
+                        aircrafts.end());
     }
 
-    void add(std::unique_ptr<Aircraft> aircraft) { aircrafts.emplace(std::move(aircraft)); }
+    void add(std::unique_ptr<Aircraft> aircraft) { aircrafts.emplace_back(std::move(aircraft)); }
 };
