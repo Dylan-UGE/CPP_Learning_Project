@@ -42,10 +42,22 @@ void TowerSimulation::create_keystrokes()
 
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
 
-    GL::keystrokes.emplace('8', []() { GL::ticks_per_sec++; });
-    GL::keystrokes.emplace('5', []() { GL::ticks_per_sec = std::max(1u, GL::ticks_per_sec - 1); });
+    GL::keystrokes.emplace('u', []() { GL::ticks_per_sec++; });
+    GL::keystrokes.emplace('j', []() { GL::ticks_per_sec = std::max(1u, GL::ticks_per_sec - 1); });
     GL::keystrokes.emplace('p', []()
                            { GL::ticks_per_sec = (GL::ticks_per_sec == 0) ? DEFAULT_TICKS_PER_SEC : 0; });
+
+    for (auto l = '0'; l < '8'; l++)
+    {
+        auto airlines = aircraft_factory.get_airlines();
+        auto airline  = airlines[l - '0'];
+        GL::keystrokes.emplace(l,
+                               [this, airline]() {
+                                   std::cout << airline << " : "
+                                             << aircraft_manager.count_planes_of_airline(airline)
+                                             << std::endl;
+                               });
+    }
 }
 
 void TowerSimulation::display_help() const
@@ -63,7 +75,7 @@ void TowerSimulation::display_help() const
 
 void TowerSimulation::init_airport()
 {
-    airport = new Airport { one_lane_airport, Point3D { 0, 0, 0 },
+    airport = new Airport { one_lane_airport, &aircraft_manager, Point3D { 0, 0, 0 },
                             new img::Image { one_lane_airport_sprite_path.get_full_path() } };
 
     GL::display_queue.emplace_back(airport);

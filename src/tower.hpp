@@ -29,4 +29,7 @@ public:
     // produce instructions for aircraft
     WaypointQueue get_instructions(Aircraft& aircraft);
     void arrived_at_terminal(const Aircraft& aircraft);
+
+    WaypointQueue reserve_terminal(Aircraft& aircraft);
+    void free_terminal(Aircraft& aircraft);
 };

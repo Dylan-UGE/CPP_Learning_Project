@@ -7,6 +7,8 @@
 #include "tower.hpp"
 #include "waypoint.hpp"
 
+#include <cstdlib>
+#include <numeric>
 #include <string>
 #include <string_view>
 
@@ -22,6 +24,7 @@ private:
     bool is_at_terminal        = false;
 
     bool have_been_service = false;
+    int fuel;
 
     // turn the aircraft to arrive at the next waypoint
     // try to facilitate reaching the waypoint after the next by facing the
@@ -57,13 +60,24 @@ public:
         control { control_ }
     {
         speed.cap_length(max_speed());
+        fuel = std::rand() % 3000 + 150;
     }
+
+    ~Aircraft() { control.free_terminal(*this); }
 
     const std::string& get_flight_num() const { return flight_number; }
     float distance_to(const Point3D& p) const { return pos.distance_to(p); }
 
     void display() const override;
     bool move();
+
+    bool has_terminal() const;
+    bool is_circling() const;
+    bool is_low_on_fuel() const;
+    void refill(int& fuel_stock);
+
+    int fuel_quantity() const { return fuel; }
+    bool is_at_airport() const { return waypoints.front().is_on_ground(); }
 
     friend class Tower;
 };

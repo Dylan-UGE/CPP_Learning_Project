@@ -4,6 +4,7 @@
 #include "aircraft.hpp"
 #include "airport.hpp"
 
+#include <array>
 #include <set>
 
 class AircraftFactory
@@ -11,9 +12,9 @@ class AircraftFactory
 private:
     size_t NUM_AIRCRAFT_TYPES;
     AircraftType* aircraft_types[3];
-    const std::string airlines[8] = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
+    const std::array<std::string, 8> airlines = { "AF", "LH", "EY", "DL", "KL", "BA", "AY", "EY" };
 
-    std::set<std::string> _flight_number;
+    std::set<std::string> _flight_numbers;
 
 public:
     AircraftFactory()
@@ -28,7 +29,7 @@ public:
         assert(airport); // make sure the airport is initialized before creating aircraft
 
         std::string flight_number = airlines[std::rand() % 8] + std::to_string(1000 + (rand() % 9000));
-        while (!_flight_number.insert(flight_number).second)
+        while (!_flight_numbers.insert(flight_number).second)
         {
             flight_number = airlines[std::rand() % 8] + std::to_string(1000 + (rand() % 9000));
         }
@@ -46,4 +47,6 @@ public:
     {
         create_aircraft(aircraft_manager, airport, *(aircraft_types[rand() % 3]));
     }
+
+    std::array<std::string, 8> get_airlines() { return airlines; }
 };
