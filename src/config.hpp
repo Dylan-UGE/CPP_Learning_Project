@@ -1,8 +1,10 @@
 #pragma once
 
+#include "geometry.hpp"
 #include "img/media_path.hpp"
 
 #include <stdexcept>
+#include <string>
 
 const MediaPath one_lane_airport_sprite_path = { "airport_1lane.png" };
 const MediaPath two_lane_airport_sprite_path = { "airport_2lane.png" };
@@ -28,4 +30,20 @@ constexpr float DEFAULT_ZOOM = 2.0f;
 constexpr size_t DEFAULT_WINDOW_WIDTH  = 800;
 constexpr size_t DEFAULT_WINDOW_HEIGHT = 600;
 
-using AircraftCrash = std::runtime_error;
+class AircraftCrash : public std::runtime_error
+{
+public:
+    AircraftCrash(std::string flight_number, Point3D pos, Point3D speed, std::string reason) :
+        std::runtime_error { build_error_msg(flight_number, pos, speed, reason) }
+    {}
+
+private:
+    static std::string build_error_msg(std::string flight_number, Point3D pos, Point3D speed,
+                                       std::string reason)
+    {
+        return "The plane " + flight_number + " crashed at point " + pos.get_point() + " at a speed of " +
+               std::to_string(speed.length()) + "km/h.\nReason : " + reason;
+    }
+
+    std::string _name;
+};

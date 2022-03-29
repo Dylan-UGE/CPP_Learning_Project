@@ -6,6 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include <numeric>
+#include <string>
 
 struct Point2D
 {
@@ -157,6 +158,11 @@ struct Point3D
         }
 
         return *this;
+    }
+
+    std::string get_point()
+    {
+        return "(" + std::to_string(x()) + ", " + std::to_string(y()) + ", " + std::to_string(z()) + ")";
     }
 };
 

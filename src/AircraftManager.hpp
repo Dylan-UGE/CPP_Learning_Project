@@ -12,6 +12,7 @@ class AircraftManager : public GL::DynamicObject
 {
 private:
     std::vector<std::unique_ptr<Aircraft>> aircrafts;
+    int crash_counter = 0;
 
 public:
     void move() override
@@ -20,7 +21,18 @@ public:
                   [](std::unique_ptr<Aircraft>& ref1, std::unique_ptr<Aircraft>& ref2)
                   { return ref1->has_terminal() || ref1->fuel_quantity() < ref2->fuel_quantity(); });
         aircrafts.erase(std::remove_if(aircrafts.begin(), aircrafts.end(),
-                                       [](std::unique_ptr<Aircraft>& ref) { return !ref->move(); }),
+                                       [this](std::unique_ptr<Aircraft>& ref)
+                                       {
+                                           try
+                                           {
+                                               return !ref->move();
+                                           } catch (AircraftCrash& error)
+                                           {
+                                               std::cerr << error.what() << std::endl;
+                                               crash_counter++;
+                                               return true;
+                                           }
+                                       }),
                         aircrafts.end());
     }
 
@@ -42,4 +54,6 @@ public:
                                                       : 0);
                                });
     }
+
+    int get_crash_counter() { return crash_counter; }
 };

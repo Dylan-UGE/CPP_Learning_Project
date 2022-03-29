@@ -92,8 +92,7 @@ bool Aircraft::move()
 {
     if (fuel == 0)
     {
-        std::cout << flight_number + " out of fuel" << std::endl;
-        return false;
+        throw AircraftCrash { flight_number, pos, speed, " crashed out of fuel" };
     }
 
     if (waypoints.empty())
@@ -130,8 +129,7 @@ bool Aircraft::move()
         {
             if (!landing_gear_deployed)
             {
-                using namespace std::string_literals;
-                throw AircraftCrash { flight_number + " crashed into the ground"s };
+                throw AircraftCrash { flight_number, pos, speed, " crashed into the ground" };
             }
         }
         else

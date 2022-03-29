@@ -43,14 +43,13 @@ void TowerSimulation::create_keystrokes()
     GL::keystrokes.emplace('f', []() { GL::toggle_fullscreen(); });
 
     GL::keystrokes.emplace('u', []() { GL::ticks_per_sec++; });
-    GL::keystrokes.emplace('j', []() { GL::ticks_per_sec = std::max(1u, GL::ticks_per_sec - 1); });
+    GL::keystrokes.emplace('i', []() { GL::ticks_per_sec = std::max(1u, GL::ticks_per_sec - 1); });
     GL::keystrokes.emplace('p', []()
                            { GL::ticks_per_sec = (GL::ticks_per_sec == 0) ? DEFAULT_TICKS_PER_SEC : 0; });
 
     for (auto l = '0'; l < '8'; l++)
     {
-        auto airlines = aircraft_factory.get_airlines();
-        auto airline  = airlines[l - '0'];
+        auto airline = aircraft_factory.get_airline(l - '0');
         GL::keystrokes.emplace(l,
                                [this, airline]() {
                                    std::cout << airline << " : "
@@ -58,6 +57,10 @@ void TowerSimulation::create_keystrokes()
                                              << std::endl;
                                });
     }
+
+    GL::keystrokes.emplace(
+        'm',
+        [this]() { std::cout << "Plane crash : " << aircraft_manager.get_crash_counter() << std::endl; });
 }
 
 void TowerSimulation::display_help() const

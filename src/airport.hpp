@@ -66,7 +66,9 @@ public:
         terminals { type.create_terminals() },
         tower { *this },
         aircraft_manager { manager }
-    {}
+    {
+        assert(aircraft_manager);
+    }
 
     Tower& get_tower() { return tower; }
 

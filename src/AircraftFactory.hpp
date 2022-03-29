@@ -27,6 +27,7 @@ public:
     void create_aircraft(AircraftManager* aircraft_manager, Airport* airport, const AircraftType& type)
     {
         assert(airport); // make sure the airport is initialized before creating aircraft
+        assert(aircraft_manager);
 
         std::string flight_number = airlines[std::rand() % 8] + std::to_string(1000 + (rand() % 9000));
         while (!_flight_numbers.insert(flight_number).second)
@@ -48,5 +49,9 @@ public:
         create_aircraft(aircraft_manager, airport, *(aircraft_types[rand() % 3]));
     }
 
-    std::array<std::string, 8> get_airlines() { return airlines; }
+    std::string get_airline(int index)
+    {
+        assert(index >= 0 && index < 8);
+        return airlines[index];
+    }
 };
