@@ -7,8 +7,7 @@ int main(int argc, char** argv)
 {
     std::srand(std::time(NULL));
 
-    test_generic_points();
-
+    //test_generic_points();
     TowerSimulation simulation { argc, argv };
     simulation.launch();
 

@@ -5,7 +5,7 @@
 Compilez et lancez le programme.
 
 Allez dans le fichier `tower_sim.cpp` et recherchez la fonction responsable de gérer les inputs du programme.
-Sur quelle touche faut-il appuyer pour ajouter un avion ?
+a
 > Avec la touche ``c`` 
 
 Comment faire pour quitter le programme ? 

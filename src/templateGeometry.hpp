@@ -18,9 +18,19 @@ template <typename type, int dimension = 1> struct PointND
     {
         static_assert(dimension == sizeof...(Ts), "dimension must be strictly equel to number of elements");
     }
+    /*PointND(type x, type y, type z) : values { x, y, z } {}
+    PointND(type x, type y) : values { x, y } {}*/
 
-    type get_n_dim(int dim) const { return values[dim]; }
-    type& get_n_dim(int dim) { return values[dim]; }
+    type get_n_dim(int dim) const
+    {
+        static_assert(dim < dimension, "dim must be strictly lower than dimension");
+        return values[dim];
+    }
+    type& get_n_dim(int dim)
+    {
+        static_assert(dim < dimension, "dim must be strictly lower than dimension");
+        return values[dim];
+    }
 
     type x() const { return values[0]; }
     type& x() { return values[0]; }
@@ -159,8 +169,8 @@ template <typename type, int dimension = 1> struct PointND
 
 inline void test_generic_points()
 {
-    PointND<int, 2> p1 { 3, 5, 6 };
-    PointND<int, 2> p2;
+    PointND<int, 3> p1 { 3, 5, 6 };
+    PointND<int, 3> p2 { 4, 5, 6 };
     auto p3 = p1 + p2;
     p1 += p2;
     p1 *= 3; // ou 3.f, ou 3.0 en fonction du type de Point
