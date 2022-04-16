@@ -14,12 +14,13 @@ template <typename type, int dimension = 1> struct PointND
 
     std::array<type, dimension> values {};
 
-    template <typename... Ts> PointND(Ts... params) : values { static_cast<type>(params)... }
+    /*template <typename... Ts> PointND(Ts... params) : values { static_cast<type>(params)... }
     {
         static_assert(dimension == sizeof...(Ts), "dimension must be strictly equel to number of elements");
-    }
-    /*PointND(type x, type y, type z) : values { x, y, z } {}
-    PointND(type x, type y) : values { x, y } {}*/
+    }*/
+    
+    PointND(type x, type y, type z) : values { x, y, z } {}
+    PointND(type x, type y) : values { x, y } {}
 
     type get_n_dim(int dim) const
     {
